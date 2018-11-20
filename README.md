@@ -38,3 +38,39 @@ and it sends the application code from the **Driver** to the **Executors**.
 ![Spark-Architecture](https://spark.apache.org/docs/latest/img/cluster-overview.png)
 
 > Spark, Cluster Mode: https://spark.apache.org/docs/latest/cluster-overview.html
+
+## Resilient Distributed Datasets _(**RDDs**)_.
+
+`RDDs` are at the very core of Spark, they are the main and lower level abstraction
+provided by the framework.  
+`RDDs` can be seen as regular Scala _collection_ of
+elements - with the particularity of being partitioned across the nodes of the cluster
+and can be operated in parallel. An `RDD` can be created from `parallelizing` an
+existing Scala _collection_, or by reading an external dataset.
+
+You processes your data by applying common _"functional"_ **transformations**,
+like `map`, `flatMap`, `filter`, `reduce`, _etc_; over your `RDDs`.  
+`RDDs` are **immutable**, that means when you apply one of these
+**transformations**, you get back a new `RDD`.  
+Also, `RDDs` **transformations** are **lazy**, that means they don't execute
+anything when called; but instead, they create **graph** for representing
+your program, which will be run latter.
+
+There is another kind of operations supported by `RDDs`, that return plain scala values,
+instead of `RDDs`. These are called **actions** and are **eager**.  
+That means they run the program's graph, by executing each of the planned
+**transformations**, to compute their result value.
+
+![Saprk-DAG](https://image.slidesharecdn.com/sparkinternalsworkshoplatest-160303190243/95/apache-spark-in-depth-core-concepts-architecture-internals-12-638.jpg?cb=1457597704)
+
+> Apache Spark in Depth: Core Concepts, Architecture & Internals: https://www.slideshare.net/akirillov/spark-workshop-internals-architecture-and-coding-59035491
+
+### Example
+
+On the file **'Introduction.scala'** there is an example program using RDD's
+to compute the _"Word Count"_ over a text.  
+You run the program by executing the following command.
+
+```bash
+ $ sbt "run co.com.psl.training.spark.Introduction"
+```
