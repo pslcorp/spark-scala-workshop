@@ -65,12 +65,55 @@ That means they run the program's graph, by executing each of the planned
 
 > Apache Spark in Depth: Core Concepts, Architecture & Internals: https://www.slideshare.net/akirillov/spark-workshop-internals-architecture-and-coding-59035491
 
+### _Functional_ Transformations
+
+A simple cheat sheet of the most common _functional_ transformations present in Scala/Spark.  
+An Scala **List** will be used in the examples for simplicity.
+
+  + **map:** _Transform an input collection, by applying a transformation function to each element of the collection_.
+
+  ```scala
+     def map[A, B](collection: C[A])(f: A => B): C[B]
+     List(1, 2, 3).map(x => x + 1) === List(2, 3, 4)
+  ```
+
+  + **flatMap:** _Transform an input collection, by applying a transformation function to each element of the collection,
+                 and then flatten the results_.
+
+  ```scala
+     def flatMap[A, B](collection: C[A])(f: A => C[B]): C[B]
+     List(1, 2, 3).flatMap(x => List.fill(x)(x)) === List(1, 2, 2, 3, 3, 3)
+  ```
+
+  + **filter:** _Returns the elements of the input collection, that satisfy a given predicate_
+
+  ```scala
+     def filter[A](collection: C[A])(p: A => Boolean): C[A]
+     List(1, 2, 3).filter(x => (x % 2) != 0) === List(1, 3)
+  ```
+
+  + **reduce:** _Reduce all the elements of the input collection, to a single value, using a binary function_
+
+  ```scala
+     def reduce[A](collection: C[A])(op: (A, A) => A): A
+     List(1, 2, 3).reduce(_ + _) === 6
+  ```
+
+  + **fold:** _Like 'reduce', reduce all the elements of the input collection, to a single value, using a binary function.
+              But also needs a zero value which allow the operation to change the return type - note: in spark
+              this operation is called 'aggregate', and is a little bit more complex_.
+
+  ```scala
+     def fold[A, B](collection: C[A])(zero: B)(op: (B, A) => B): B
+     List('a', 'b', 'c').foldLeft("")((acc, x) => acc + x) === "abc"
+  ```
+
 ### Example
 
 On the file **'Introduction.scala'** there is an example program using RDD's
 to compute the _"Word Count"_ over a text.  
 You run the program by executing the following command.
 
-```bash
- $ sbt "run co.com.psl.training.spark.Introduction"
-```
+  ```bash
+     $ sbt "run co.com.psl.training.spark.Introduction"
+  ```
