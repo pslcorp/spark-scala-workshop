@@ -50,7 +50,7 @@ elements - with the particularity of being partitioned across the nodes of the c
 and can be operated in parallel. An `RDD` can be created from `parallelizing` an
 existing Scala _collection_, or by reading an external dataset.
 
-You processes your data by applying common _"functional"_ **transformations**,
+You processes your data by applying common _functional_ **transformations**,
 like `map`, `flatMap`, `filter`, `reduce`, _etc_; over your `RDDs`.  
 `RDDs` are **immutable**, that means when you apply one of these
 **transformations**, you get back a new `RDD`.  
@@ -122,10 +122,27 @@ They provide several ways to interact with the data, including **SQL** & the Dat
 
 ### DataFrames
 
-A DataFrame is a distributed collection of data organized into named columns. It is conceptually equivalent to a table in a relational database.  
-They allow us to execute SQL queries over our data to express our computations.
+A DataFrame is a distributed collection of data organized into named columns - It is conceptually equivalent to a table in a relational database.
+
+They allow us to execute SQL queries over our data to express our computations -
+commonly used functions can be found on the [**sql.functions**](https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.functions$) object.  
 They are incredible optimized, but lack type checking - they use schema to validate the operations, but the schema is only know in runtime.  
 However, they're very powerful for data exploratory testing since they can infer the schema from the input data.
+
+### Datasets
+
+A Dataset is a distributed collection of _semi-structured_ typed data - It is somewhat similar to a collection of documents in a NoSQL database.
+
+They are strongly typed and can derive they schema from they their type at runtime.  
+However, they require an [**Encoder**](https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.Encoder)
+to serialize the objects for processing or transmitting over the network. For that reason, they are commonly used with:
+primitive values _(including Strings, Dates & Timestamps)_ and arrays, maps, tuples & case classes of these primitives.  
+They can be processed either with _functional_ **transformations** and with SQL queries -
+additionally, the Datasets API provides a powerful feature
+called [**Aggregators**](https://spark.apache.org/docs/latest/sql-getting-started.html#aggregations),
+which allow a simple way to perform parallel aggregations.
+
+> **Note:** A DataFrame is just a `Dataset[Row]`.
 
 ---
 
@@ -135,6 +152,7 @@ On the file **'Introduction.scala'** there are example programs using RDD's, Dat
 
   + **RDD:** Compute the _"Word Count"_ over a text.
   + **DataFrames:** _"Data Exploratory Analysis"_ over a CSV file.
+  + **Datasets:** _"Aggregation"_ over a JSON file.
 
 You run the program by executing the following command.
 
