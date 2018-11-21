@@ -9,7 +9,7 @@ It will cover basic aspects of Spark, especially:
   + Resilient Distributed Datasets _(**RDDs**)_.
   + Transformations _(lazy)_ VS Actions _(eager)_.
   + Partitions and Shuffling.
-  + DataFrames & Datasets.
+  + Datasets & DataFrames.
 
 ## Prerequisites
 
@@ -19,6 +19,8 @@ For this workshop you only need:
   2. A [Java Development Kit _(**JDK**)_ 8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) on your classpath.
   3. The [Scala Build Tool _(**SBT**)_](https://www.scala-sbt.org/1.x/docs/Setup.html) installed.
   4. An IDE of your preference.
+
+---
 
 ## Spark Execution Model
 
@@ -108,10 +110,32 @@ An Scala **List** will be used in the examples for simplicity.
      List('a', 'b', 'c').foldLeft("")((acc, x) => acc + x) === "abc"
   ```
 
-### Example
+---
 
-On the file **'Introduction.scala'** there is an example program using RDD's
-to compute the _"Word Count"_ over a text.  
+## Datasets & DataFrames
+
+Datasets and DataFrames are higher level abstractions provided by Spark.  
+They provide several ways to interact with the data, including **SQL** & the Datasets **API**.
+
+> "They provide Spark with more information about the structure of both the data and the computation being performed.  
+> Internally, Spark SQL uses this extra information to perform extra optimizations."
+
+### DataFrames
+
+A DataFrame is a distributed collection of data organized into named columns. It is conceptually equivalent to a table in a relational database.  
+They allow us to execute SQL queries over our data to express our computations.
+They are incredible optimized, but lack type checking - they use schema to validate the operations, but the schema is only know in runtime.  
+However, they're very powerful for data exploratory testing since they can infer the schema from the input data.
+
+---
+
+## Example
+
+On the file **'Introduction.scala'** there are example programs using RDD's, DataFrames and Datasets.
+
+  + **RDD:** Compute the _"Word Count"_ over a text.
+  + **DataFrames:** _"Data Exploratory Analysis"_ over a CSV file.
+
 You run the program by executing the following command.
 
   ```bash
