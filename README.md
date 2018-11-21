@@ -84,7 +84,7 @@ An Scala **List** will be used in the examples for simplicity.
 
   ```scala
      def flatMap[A, B](collection: C[A])(f: A => C[B]): C[B]
-     List(1, 2, 3).flatMap(x => List.fill(x)(x)) === List(1, 2, 2, 3, 3, 3)
+     List(1, 2, 3).flatMap(x => List('a', 'b', 'c')) === List('a', 'a', 'a', 'b', 'b', 'b', 'c', 'c', 'c')
   ```
 
   + **filter:** _Returns the elements of the input collection, that satisfy a given predicate_

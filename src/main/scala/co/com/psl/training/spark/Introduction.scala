@@ -130,7 +130,8 @@ object Introduction {
     // Let's find the apartments whose price per square meter is bellow the mean.
     val apartmentsPSM = // PSM = price per square meter.
       apartments.select(
-        $"name", $"area",
+        $"name",
+        $"area",
         $"price",
         sqlfun.bround($"price" / $"area", scale = 2).as("psm") // bround is round, but with HALF_EVEN instead of HAFL_UP.
       )
@@ -176,8 +177,8 @@ object Introduction {
     } yield (nbaTeam.teamName -> (player.height, player.weight))
     val groupedByTeam = // groupedByTeam: KeyValueGroupedDataset[String, PlayerInfo].
       flattened
-        .groupByKey(_._1) // Group by the team name.
-        .mapValues(_._2) // Preserve only the player info in each group.
+        .groupByKey(tuple => tuple._1) // Group by the team name.
+        .mapValues(tuple => tuple._2) // Preserve only the player info in each group.
     val aggregated = // aggregated: Dataset[String -> Double]
       groupedByTeam.agg(AverageBMIAggregator.toColumn.name("average-bmi"))
     val sorted =
