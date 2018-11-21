@@ -2,7 +2,7 @@ name := "Spark-Scala-Workshp"
 organization := "co.com.psl"
 organizationName := "PSL S.A.S."
 organizationHomepage := Some(url("http://www.psl.com.co/"))
-version := "0.1.0"
+version := "1.0.0"
 scalaVersion := "2.12.7"
 scalacOptions ++= Seq(
   "-deprecation",
@@ -17,13 +17,17 @@ scalacOptions ++= Seq(
   "-Ywarn-infer-any"
 )
 
-val sparkVersion = "2.4.0"
+val SparkVersion = "2.4.0"
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % sparkVersion % Provided,
-  "org.apache.spark" %% "spark-sql" % sparkVersion % Provided
+  "org.apache.spark" %% "spark-core" % SparkVersion % Provided,
+  "org.apache.spark" %% "spark-sql"  % SparkVersion % Provided
 )
 
 // Hack for getting the Provided dependencies work in the run task.
 fullClasspath in Runtime := (fullClasspath in Compile).value
 run in Compile := Defaults.runTask(fullClasspath in Compile, mainClass in (Compile, run), runner in (Compile, run)).evaluated
 runMain in Compile := Defaults.runMainTask(fullClasspath in Compile, runner in(Compile, run)).evaluated
+
+// Allow to stop run with CTRL + C.
+fork in run := true
+cancelable in Global := true
