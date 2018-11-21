@@ -11,16 +11,16 @@ import org.apache.spark.sql.expressions.Aggregator
 /** Simple Spark with Scala introductory workshop. */
 object Introduction {
   /** Path to the apartments CSV file. */
-  val ApartmentsPath: String =
+  val apartmentsPath: String =
     java.nio.file.Paths.get(
-      this.getClass.getResource("/apartments.csv").toURI()
-    ).toAbsolutePath().normalize().toString()
+      this.getClass.getResource("/apartments.csv").toURI
+    ).toAbsolutePath.normalize().toString
 
   /** Path to the NBA teams JSON file. */
   val NBATeamsPath: String =
     java.nio.file.Paths.get(
-      this.getClass.getResource("/nba_teams.json").toURI()
-    ).toAbsolutePath().normalize().toString()
+      this.getClass.getResource("/nba_teams.json").toURI
+    ).toAbsolutePath.normalize().toString
 
   /** Data structures for NBA teams dataset. */
   final case class NBATeam(teamName: String, players: Array[NBAPlayer])
@@ -90,7 +90,8 @@ object Introduction {
     val wordsToRemove = Set("big", "goodbye", "spark")
     val wordCount =
       lines
-        .flatMap(line => line.split("\\P{L}")) // Splits by every character that isn't a letter.
+        .flatMap(line => line.split("[^\\w]"))
+        //.flatMap(line => line.split("\\P{L}")) // Splits by every character that isn't a letter.
         .map(word => word.toLowerCase)
         .filter(word => word.nonEmpty && !wordsToRemove.contains(word))
         .map(word => word -> 1)
@@ -113,7 +114,7 @@ object Introduction {
         .option(key   = "encoding", value = "UTF-8")
         .option(key   = "sep", value = ",")
         .option(key   = "inferSchema", value = "true")
-        .csv(ApartmentsPath)
+        .csv(apartmentsPath)
 
     // Let's give a look to the data and the inferred schema.
     println("Apartments schema:")
@@ -174,7 +175,7 @@ object Introduction {
     } yield (nbaTeam.teamName -> (player.height, player.weight))
     val groupedByTeam = // groupedByTeam: KeyValueGroupedDataset[String, PlayerInfo].
       flattened
-        .groupByKey(_._1) // Group by the player name.
+        .groupByKey(_._1) // Group by the team name.
         .mapValues(_._2) // Preserve only the player info in each group.
     val aggregated = // aggregated: Dataset[String -> Double]
       groupedByTeam.agg(AverageBMIAggregator.toColumn.name("average-bmi"))
