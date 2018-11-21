@@ -148,14 +148,43 @@ which allow a simple way to perform parallel aggregations.
 
 ## Example
 
-On the file **'Introduction.scala'** there are example programs using RDD's, DataFrames and Datasets.
+In the file **'Introduction.scala'** there are example programs using RDD's, DataFrames and Datasets.
 
   + **RDD:** Compute the _"Word Count"_ over a text.
   + **DataFrames:** _"Data Exploratory Analysis"_ over a CSV file.
   + **Datasets:** _"Aggregation"_ over a JSON file.
 
-You run the program by executing the following command.
+You can run the examples by executing the following command.
 
   ```bash
      $ sbt "run co.com.psl.training.spark.Introduction"
   ```
+
+---
+
+## Exercise
+
+In the file **'Exercise.scala'** there is the code template for solve an exercise to apply what has been learned.
+
+We have a record of the locations in which the users have been, the record saves
+the id of the user, the date _(with precision in minutes)_ and the registered location.  
+The exercise consists of obtaining the list of locations _(without repeated values)_ in which each user was in each hour.
+
+> **Note:** you may change the signature of the function to use the abstraction, _(RDD, DataFrame or Dataset)_, you prefer.
+
+You can run the exercise by executing the following command.
+
+  ```bash
+     $ sbt "run co.com.psl.training.spark.Exercise"
+  ```
+
+The output of your program must look like this.
+
+  | userid    | datetime            | locations        |
+  | :-------: | :-----------------: | ---------------- |
+  | "lmejias" | 2018-12-31T13:00:00 | ["home", "work"] |
+  | "lmejias" | 2018-12-31T15:00:00 | ["cc"]           |
+  | "dossass" | 2018-12-31T13:00:00 | ["home", "cc"]   |
+  | "dossass" | 2018-12-31T17:00:00 | ["home", "cc"]   |
+
+---

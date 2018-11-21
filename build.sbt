@@ -2,7 +2,7 @@ name := "Spark-Scala-Workshp"
 organization := "co.com.psl"
 organizationName := "PSL S.A.S."
 organizationHomepage := Some(url("http://www.psl.com.co/"))
-version := "0.1.0"
+version := "1.0.0"
 scalaVersion := "2.12.7"
 scalacOptions ++= Seq(
   "-deprecation",
