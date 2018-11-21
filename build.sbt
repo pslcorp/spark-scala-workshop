@@ -19,14 +19,9 @@ scalacOptions ++= Seq(
 
 val SparkVersion = "2.4.0"
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % SparkVersion % Provided,
-  "org.apache.spark" %% "spark-sql"  % SparkVersion % Provided
+  "org.apache.spark" %% "spark-core" % SparkVersion,
+  "org.apache.spark" %% "spark-sql"  % SparkVersion
 )
-
-// Hack for getting the Provided dependencies work in the run task.
-fullClasspath in Runtime := (fullClasspath in Compile).value
-run in Compile := Defaults.runTask(fullClasspath in Compile, mainClass in (Compile, run), runner in (Compile, run)).evaluated
-runMain in Compile := Defaults.runMainTask(fullClasspath in Compile, runner in(Compile, run)).evaluated
 
 // Allow to stop run with CTRL + C.
 fork in run := true

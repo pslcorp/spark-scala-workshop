@@ -11,13 +11,13 @@ import org.apache.spark.sql.expressions.Aggregator
 /** Simple Spark with Scala introductory workshop. */
 object Introduction {
   /** Path to the apartments CSV file. */
-  lazy val ApartmentsPath: String =
+  val ApartmentsPath: String =
     java.nio.file.Paths.get(
       this.getClass.getResource("/apartments.csv").toURI()
     ).toAbsolutePath().normalize().toString()
 
   /** Path to the NBA teams JSON file. */
-  lazy val NBATeamsPath: String =
+  val NBATeamsPath: String =
     java.nio.file.Paths.get(
       this.getClass.getResource("/nba_teams.json").toURI()
     ).toAbsolutePath().normalize().toString()
