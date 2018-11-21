@@ -71,6 +71,7 @@ object Introduction {
         .appName("Spark Scala Workshop - Introduction")
         .getOrCreate()
     val sc = spark.sparkContext
+    sc.setLogLevel("ERROR")
     import spark.implicits._
 
     // ------------------------------------------ RDDs --------------------------------------------
