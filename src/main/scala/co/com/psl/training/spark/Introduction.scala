@@ -53,7 +53,9 @@ object Introduction {
       reduction match {
         case (sum, count) =>
           import math.BigDecimal
-          BigDecimal(sum / count).setScale(2, BigDecimal.RoundingMode.HALF_EVEN).toDouble
+          BigDecimal(sum / count)
+            .setScale(scale = 2, mode = BigDecimal.RoundingMode.HALF_EVEN)
+            .toDouble
       }
 
     override def bufferEncoder: Encoder[AverageBMIBuffer] = Encoders.product
@@ -88,13 +90,12 @@ object Introduction {
 
     // Computes the 'word count' of our text.
     val wordsToRemove = Set("big", "goodbye", "spark")
-    val wordCount =
+    val wordCount = // wordCount: Map[String, Long]
       lines
-        .flatMap(line => line.split("[^\\w]"))
-        //.flatMap(line => line.split("\\P{L}")) // Splits by every character that isn't a letter.
+        .flatMap(line => line.split("[^\\w]")) // Splits by every character that isn't a letter.
         .map(word => word.toLowerCase)
         .filter(word => word.nonEmpty && !wordsToRemove.contains(word))
-        .map(word => word -> 1)
+        .map(word => word -> 1l)
         .reduceByKeyLocally((acc, v) => acc + v)
 
     // Display our results.
@@ -131,7 +132,7 @@ object Introduction {
       apartments.select(
         $"name", $"area",
         $"price",
-        ($"price" / $"area").as("psm")
+        sqlfun.bround($"price" / $"area", scale = 2).as("psm") // bround is round, but with HALF_EVEN instead of HAFL_UP.
       )
     val meanPSM =
       apartmentsPSM.select(

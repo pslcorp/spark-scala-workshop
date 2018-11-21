@@ -23,6 +23,9 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-sql" % sparkVersion
 )
 
+// Execute run in a separate JVM.
+fork in run := true
+
 // Hack for getting the Provided dependencies work in the run task.
 fullClasspath in Runtime := (fullClasspath in Compile).value
 run in Compile := Defaults.runTask(fullClasspath in Compile, mainClass in (Compile, run), runner in (Compile, run)).evaluated
