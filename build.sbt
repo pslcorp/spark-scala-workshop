@@ -3,7 +3,7 @@ organization := "co.com.psl"
 organizationName := "PSL S.A.S."
 organizationHomepage := Some(url("http://www.psl.com.co/"))
 version := "1.0.0"
-scalaVersion := "2.12.7"
+scalaVersion := "2.12.8"
 scalacOptions ++= Seq(
   "-deprecation",
   "-encoding", "utf-8",
